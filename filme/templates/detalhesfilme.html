@@ -1,78 +1,109 @@
 {% extends 'base.html' %}
 
 {% block titulo %}
-HomeFilmes Hashflix
+{{ object.titulo }} • FortFlix
 {% endblock %}
 
-
 {% block content %}
-<main class='bg-primary_black min-h-screen w-full'>
-    <section class="h-screen relative bg-no-repeat pb-8 pl-6 flex  items-end bg-cover" style="background-image: url('{{ object.thumb.url }}');">
-        <div>
-            <h2 class="text-6xl font-semibold text-white my-4">
+<main class="bg-primary_black min-h-screen w-full">
+
+    <!-- ============================ -->
+    <!--  BANNER FULLSCREEN           -->
+    <!-- ============================ -->
+    <section class="h-[80vh] relative bg-no-repeat bg-cover flex items-end pb-10 px-6"
+             style="background-image: url('{{ object.thumb.url }}');">
+
+        <div class="bg-black/50 p-6 rounded-xl max-w-2xl backdrop-blur-sm">
+
+            <h1 class="text-5xl font-bold text-white mb-4">
                 {{ object.titulo }}
-            </h2>
-            <p class=" w-11/12 md:w-5/12 font-medium text-white my-4">
-                {{ object.descricao|slice:":100" }}...
+            </h1>
+
+            <p class="text-gray-200 mb-4">
+                {{ object.descricao|slice:":150" }}...
             </p>
-            <div class="flex my-4">
-                <a href="{{ object.episodios.first.video }}">
-                    <button class="flex items-center bg-white py-2 px-5 rounded-md" style='color:black;'>
-                        <ion-icon name="play" class="text-2xl"></ion-icon>
-                        <span class="ml-3 font-medium">
-                            Play
-                        </span>
+
+            <p class="text-gray-300 text-sm mb-6">
+                👁️ {{ object.visualizacoes }} visualizações
+            </p>
+
+            {% if object.episodios.first %}
+                <a href="{% url 'filme:episodio_detail' object.episodios.first.id %}">
+                    <button class="flex items-center bg-white py-2 px-6 rounded-md text-black font-medium hover:scale-105 transition">
+                        ▶ Play
                     </button>
                 </a>
-            </div>
-        </div>
-    </section>
-    <section class='bg-primary_black flex justify-center py-10'>
-        <div class="p-8 w-10/12 relative" >
-            <h2 class="text-gray-200 text-3xl font-medium">
-                Descrição
-            </h2>
-            <div class="flex justify-left  items-center min-w-full  movie_lis">
-                <p class="text-gray-100 text-lg">
-                    {{ object.descricao }}
-                    <br>
-                    Visualizações: {{ object.visualizacoes }}
-                </p>
-            </div>
-
-            <div style='margin-top:2rem;margin-bottom:2rem;'>
-                <h2 class="text-gray-200 text-3xl font-medium">
-                    Episódios
-                </h2>
-                {% for episodio in object.episodios.all %}
-                    <h3 class='text-lg'>
-                        <a href="{{ episodio.video }}">
-                            <p>Episódio {{ forloop.counter }}: {{ episodio.titulo }}</p>
-                        </a>
-                    </h3>
-                {% endfor %}
-            </div>
+            {% endif %}
 
         </div>
+
     </section>
 
-    <section class='bg-primary_black flex justify-center py-10'>
-        <div class="p-8 w-10/12 relative" >
-            <h2 class="text-gray-200 text-2xl font-medium">
-                Relacionados
-            </h2>
-            <div class="flex flex-wrap items-center min-w-full movie_lis">
-                {% for filme in filmes_relacionados %}
-                <div class="m-4 bg-blue-500 overflow-hidden flex-shrink-0 rounded-md cursor-pointer h-64 w-96">
-                    <a href="{% url 'filme:detalhesfilme' filme.pk %}">
-                            <img src="{{ filme.thumb.url }}" class="object-cover w-full h-full " alt="">
+
+    <!-- ============================ -->
+    <!--  DESCRIÇÃO COMPLETA          -->
+    <!-- ============================ -->
+    <section class="max-w-5xl mx-auto px-6 py-12">
+        <h2 class="text-3xl font-semibold text-white mb-4">Descrição Completa</h2>
+
+        <p class="text-gray-300 text-lg leading-relaxed">
+            {{ object.descricao }}
+        </p>
+    </section>
+
+
+    <!-- ============================ -->
+    <!--  EPISÓDIOS                   -->
+    <!-- ============================ -->
+    <section class="max-w-5xl mx-auto px-6 py-12">
+        <h2 class="text-3xl font-semibold text-white mb-6">Episódios</h2>
+
+        {% if object.episodios.all.count %}
+            <div class="space-y-4">
+                {% for ep in object.episodios.all %}
+                    <a href="{% url 'filme:episodio_detail' ep.id %}"
+                       class="block bg-white/5 p-5 rounded-lg shadow-md hover:bg-white/10 transition">
+
+                        <h3 class="text-xl font-bold text-white">
+                            Episódio {{ ep.numero }} — {{ ep.titulo }}
+                        </h3>
+
+                        <p class="text-gray-400 text-sm">Clique para assistir →</p>
                     </a>
-                </div>
                 {% endfor %}
             </div>
+        {% else %}
+            <p class="text-gray-400">Nenhum episódio disponível.</p>
+        {% endif %}
+    </section>
+
+
+    <!-- ============================ -->
+    <!--  FILMES RELACIONADOS         -->
+    <!-- ============================ -->
+    <section class="max-w-6xl mx-auto px-6 py-12">
+        <h2 class="text-3xl font-semibold text-white mb-6">Relacionados</h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+
+            {% for filme in filmes_relacionados %}
+                <a href="{% url 'filme:detalhesfilme' filme.pk %}"
+                   class="block bg-white/5 rounded-xl overflow-hidden hover:scale-105 transition">
+
+                    <img src="{{ filme.thumb.url }}"
+                         class="w-full h-64 object-cover">
+
+                    <div class="p-3">
+                        <h3 class="text-lg font-semibold text-white">{{ filme.titulo }}</h3>
+                    </div>
+
+                </a>
+            {% empty %}
+                <p class="text-gray-400">Nenhum filme relacionado encontrado.</p>
+            {% endfor %}
+
         </div>
     </section>
 
 </main>
-
 {% endblock %}

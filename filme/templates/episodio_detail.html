@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+Assistir {{ episodio.titulo }} • {{ episodio.filme.titulo }} • FortFlix
+{% endblock %}
+
+{% block content %}
+<div class="py-10 max-w-4xl mx-auto px-4">
+
+    <!-- Título -->
+    <h1 class="text-3xl font-bold mb-6">
+        Episódio {{ episodio.numero }} — {{ episodio.titulo }}
+    </h1>
+
+    <!-- Player -->
+    <div class="w-full mb-10">
+        <video controls class="w-full aspect-video rounded-xl shadow-lg">
+            <source src="{{ episodio.video_url }}" type="video/mp4">
+            Seu navegador não suporta vídeo HTML5.
+        </video>
+    </div>
+
+    <!-- Info: voltar ao filme -->
+    <div class="bg-white/5 p-6 rounded-xl shadow-md mb-10">
+        <h2 class="text-xl font-semibold mb-2">Parte de:</h2>
+
+        <a href="{% url 'filme:detalhesfilme' episodio.filme.id %}"
+           class="text-red-400 hover:text-red-300 underline font-medium">
+            {{ episodio.filme.titulo }}
+        </a>
+    </div>
+
+    <!-- Outros Episódios -->
+    <div>
+        <h2 class="text-xl font-semibold mb-4">Outros Episódios</h2>
+
+        {% for ep in outros_episodios %}
+        <a href="{% url 'filme:episodio_detail' ep.id %}"
+           class="block bg-white/5 p-4 rounded-lg hover:bg-white/10 transition mb-3">
+
+            <p class="font-semibold">
+                Episódio {{ ep.numero }} — {{ ep.titulo }}
+            </p>
+
+        </a>
+        {% empty %}
+            <p class="text-gray-400">Nenhum outro episódio disponível.</p>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

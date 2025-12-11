@@ -1,44 +1,106 @@
 {% load static %}
-<nav class="w-full flex justify-between items-center py-3 px-4 fixed z-50">
-    <div class="w-6/12">
-        <a href="/">
-           <img class="w-2/12" src="{% static 'images/hashflix.png' %}">
-        </a>
-    </div>
 
-    <div class="w-6/12 flex flex-nowrap justify-end">
-        {% if user.is_authenticated %}
-        <div class="mr-2">
-            <form method="get" action="{% url 'filme:pesquisafilme' %}">
-                <input type="text" class="py-1 px-2 rounded-md text-black" name="query" value="{{ request.GET.query }}" placeholder="Pesquisar...">
-                <input type="submit" value="">
-            </form>
-        </div>
-        {% endif %}
-        <div class="mr-2">
+<nav class="w-full bg-black/80 backdrop-blur-sm fixed top-0 left-0 z-50 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+
+        <!-- Logo dinâmica -->
+        <a href="{% url 'filme:homepage' %}">
+            <img src="{% static 'images/FORTFLIX.png' %}" alt="FortFlix"
+                 class="w-24 sm:w-28 drop-shadow-lg">
+        </a>
+
+        <!-- Desktop -->
+        <div class="hidden sm:flex items-center gap-5">
+
             {% if user.is_authenticated %}
-            <a href="{% url 'filme:logout' %}">
-                <button class="bg-red-600 text-white py-1 px-3 rounded-md">
-                    Sair
-                </button>
-            </a>
+            <!-- Search bar -->
+            <form method="GET" action="{% url 'filme:pesquisa_filme' %}">
+                <input type="text"
+                       name="query"
+                       placeholder="Pesquisar..."
+                       value="{{ request.GET.query }}"
+                       class="bg-white/10 text-white placeholder-gray-400 px-3 py-2 rounded-lg
+                              focus:outline-none focus:ring-2 focus:ring-red-600 w-56">
+                <input type="submit" hidden>
+            </form>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                <!-- Logout (POST) -->
+                <form action="{% url 'filme:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition">
+                        Sair
+                    </button>
+                </form>
+
+                <!-- Editar perfil -->
+                <a href="{% url 'filme:editarperfil' user.pk %}"
+                   class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg transition">
+                    Editar Perfil
+                </a>
             {% else %}
-            <a href="{% url 'filme:login' %}">
-                <button class="bg-red-600 text-white py-1 px-3 rounded-md">
+                <!-- Login -->
+                <a href="{% url 'filme:login' %}"
+                   class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition">
                     Login
-                </button>
-            </a>
+                </a>
             {% endif %}
         </div>
-        {% if user.is_authenticated %}
-        <div class="mr-2">
-            <a href="{% url 'filme:editarperfil' user.pk %}">
-                <button class="bg-red-600 text-white py-1 px-3 rounded-md">
-                    Editar Perfil
-                </button>
-            </a>
-        </div>
-        {% endif %}
+
+        <!-- Mobile button -->
+        <button id="navToggle" class="sm:hidden text-white text-3xl">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                 stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+        </button>
     </div>
 
+    <!-- Mobile menu -->
+    <div id="mobileMenu"
+         class="hidden sm:hidden px-4 pb-4 flex flex-col gap-4 bg-black/95 border-t border-white/10">
+
+        {% if user.is_authenticated %}
+        <!-- Search bar mobile -->
+        <form method="GET" action="{% url 'filme:pesquisa_filme' %}">
+            <input type="text"
+                   name="query"
+                   placeholder="Pesquisar..."
+                   value="{{ request.GET.query }}"
+                   class="bg-white/10 text-white placeholder-gray-400 px-3 py-2 rounded-lg
+                          focus:outline-none focus:ring-2 focus:ring-red-600 w-full">
+            <input type="submit" hidden>
+        </form>
+
+        <!-- Logout mobile (POST) -->
+        <form action="{% url 'filme:logout' %}" method="post" class="w-full">
+            {% csrf_token %}
+            <button class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg w-full text-center">
+                Sair
+            </button>
+        </form>
+
+        <!-- Editar Perfil -->
+        <a href="{% url 'filme:editarperfil' user.pk %}"
+           class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg w-full text-center">
+            Editar Perfil
+        </a>
+
+        {% else %}
+        <!-- Login -->
+        <a href="{% url 'filme:login' %}"
+           class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg w-full text-center">
+            Login
+        </a>
+        {% endif %}
+    </div>
 </nav>
+
+<script>
+    const btn = document.getElementById("navToggle");
+    const menu = document.getElementById("mobileMenu");
+
+    btn.onclick = () => menu.classList.toggle("hidden");
+</script>

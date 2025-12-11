@@ -1,34 +1,62 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load crispy_forms_tags %}
 
 {% block titulo %}
 Fazer Login
 {% endblock %}
 
 {% block content %}
-    <header class="min-h-screen bg-black bg-opacity-75 bg-blend-overlay showcase border-gray-600 border-b-8 flex justify-center items-center bg-no-repeat"  style="background-image: url('{% static 'images/background_netflix.jpg' %}');">
-        <div class="z-10 h-full py-32 md:py-0 text-gray-100 text-center flex items-center flex-col">
-            <form method="post">
-                {% csrf_token %}
-                <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">Faça Login para continuar</legend>
-                    {{ form|crispy }}
-                </fieldset>
-                <button class="bg-red-600 py-1 my-2 px-3 w-full text-white md:text-lg rounded-md" type="submit">Fazer Login</button>
-            </form>
-            <small>
-                Não tem uma conta ainda? <p><a href="{% url 'filme:criarconta' %}">Clique aqui para criar uma conta</a></p>
-            </small>
-        </div>
-    </header>
+<header class="min-h-screen bg-black/70 bg-blend-overlay showcase border-b-8 border-gray-700 flex justify-center items-center bg-no-repeat bg-cover"
+        style="background-image: url('{% static 'images/background_netflix.jpg' %}');">
 
-    <footer class=" px-5 py-10 ">
-        <ul class="flex justify-between items-center">
+    <div class="z-10 w-full max-w-md px-8 py-10 bg-black/80 rounded-xl shadow-xl">
+        <h2 class="text-3xl font-semibold text-center mb-8 text-white">
+            Fazer Login
+        </h2>
 
-            <li>&copy; 2021</li>
-            <li> Feito com Python (Django)</li>
-            <li>Hashtag</li>
-        </ul>
-    </footer>
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- Campo Usuário -->
+            <div>
+                <label class="block mb-1 text-gray-300">Usuário</label>
+                <input
+                    type="text"
+                    name="username"
+                    class="w-full p-3 rounded-md bg-neutral-800 text-white placeholder-gray-400
+                           focus:outline-none focus:ring-2 focus:ring-red-600"
+                    placeholder="Digite seu usuário"
+                    required
+                >
+            </div>
+
+            <!-- Campo Senha -->
+            <div>
+                <label class="block mb-1 text-gray-300">Senha</label>
+                <input
+                    type="password"
+                    name="password"
+                    class="w-full p-3 rounded-md bg-neutral-800 text-white placeholder-gray-400
+                           focus:outline-none focus:ring-2 focus:ring-red-600"
+                    placeholder="Digite sua senha"
+                    required
+                >
+            </div>
+
+            <button
+                class="bg-red-600 hover:bg-red-700 py-3 mt-2 px-4 w-full text-white text-lg rounded-md transition">
+                Fazer Login
+            </button>
+        </form>
+
+        <!-- Link Criar Conta -->
+        <p class="text-gray-300 text-sm mt-8 text-center">
+            Não tem uma conta?
+            <a href="{% url 'filme:criarconta' %}" class="text-red-500 hover:underline">
+                Criar conta
+            </a>
+        </p>
+    </div>
+
+</header>
 {% endblock %}

@@ -5,24 +5,38 @@ Pesquisa de Filmes
 {% endblock %}
 
 {% block content %}
-    <main class='bg-primary_black min-h-screen w-full'>
-        <section class='bg-primary_black  min-h-screen flex justify-center py-10'>
-            <div class="p-8 w-10/12 relative" >
-                <h2 class="text-gray-200 text-2xl font-medium">
-                    Resultados da Busca
-                </h2>
-                <div class="flex flex-wrap items-center min-w-full movie_lis">
-                  {% for filme in object_list %}
-                    <div class="m-4 bg-blue-500 overflow-hidden flex-shrink-0 rounded-md cursor-pointer h-64 w-96">
-                        <a href="{% url 'filme:detalhesfilme' filme.pk %}">
-                          <img src="{{ filme.thumb.url }}" class="object-cover w-full h-full " alt="">
-                        </a>
-                    </div>
-                  {% endfor %}
-                </div>
+<div class="py-10 max-w-6xl mx-auto px-4">
 
+    <h2 class="text-3xl font-bold mb-8">Resultados da Busca</h2>
 
-            </div>
-        </section>
-    </main>
+    {% if object_list %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+
+            {% for filme in object_list %}
+            <a href="{% url 'filme:detalhesfilme' filme.pk %}"
+               class="bg-white/5 p-4 rounded-xl shadow-md hover:scale-[1.02] transition transform block">
+
+                <img src="{{ filme.thumb.url }}"
+                     class="w-full h-64 object-cover rounded-lg mb-3"
+                     alt="{{ filme.titulo }}">
+
+                <h3 class="text-xl font-semibold mb-1 hover:underline">
+                    {{ filme.titulo }}
+                </h3>
+
+                <p class="text-gray-300 text-sm">
+                    {{ filme.descricao|truncatechars:120 }}
+                </p>
+
+            </a>
+            {% endfor %}
+
+        </div>
+    {% else %}
+        <p class="text-gray-400 text-lg mt-6">
+            Nenhum filme encontrado com esse termo.
+        </p>
+    {% endif %}
+
+</div>
 {% endblock %}

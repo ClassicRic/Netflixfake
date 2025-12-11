@@ -1,36 +1,57 @@
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
-# Create your models here.
 
-LISTA_CATEGORIAS = (
-    ("ANALISES", "Análises"),
-    ("PROGRAMACAO", "Programação"),
-    ("APRESENTACAO", "Apresentação"),
-    ("OUTROS", "Outros"),
-)
 
-# criar o filme
+class User(AbstractUser):
+    filmes_vistos = models.ManyToManyField("Filme", blank=True)
+
+
+class Categoria(models.TextChoices):
+    ACAO = "ACAO", "Ação"
+    DRAMA = "DRAMA", "Drama"
+    COMEDIA = "COMEDIA", "Comédia"
+    FICCAO = "FICCAO", "Ficção"
+
+
 class Filme(models.Model):
     titulo = models.CharField(max_length=100)
-    thumb = models.ImageField(upload_to='thumb_filmes')
-    descricao = models.TextField(max_length=1000)
-    categoria = models.CharField(max_length=15, choices=LISTA_CATEGORIAS)
-    visualizacoes = models.IntegerField(default=0)
-    data_criacao = models.DateTimeField(default=timezone.now)
+    descricao = models.TextField(max_length=500)
+    thumb = models.ImageField(upload_to="thumb_filmes")
+
+    visualizacoes = models.PositiveIntegerField(default=0)
+
+    categoria = models.CharField(
+        max_length=20,
+        choices=Categoria.choices,
+        default=Categoria.ACAO
+    )
+
+    data_criacao = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.titulo
 
-# criar os episodios
+
 class Episodio(models.Model):
-    filme = models.ForeignKey("Filme", related_name="episodios", on_delete=models.CASCADE)
+    filme = models.ForeignKey(
+        Filme,
+        related_name="episodios",
+        on_delete=models.CASCADE
+    )
+
+    numero = models.PositiveIntegerField(default=1)
     titulo = models.CharField(max_length=100)
-    video = models.URLField()
+
+    # ❗ Agora é um **link** e não um arquivo
+    video_url = models.URLField(
+        blank=True,
+        null=True,
+        max_length=500,
+        help_text="Cole aqui o link direto do supabase"
+    )
+
+    class Meta:
+        ordering = ["numero"]
 
     def __str__(self):
-        return self.filme.titulo + " - " + self.titulo
-
-
-class Usuario(AbstractUser):
-    filmes_vistos = models.ManyToManyField("Filme")
+        return f"{self.filme.titulo} — Episódio {self.numero}: {self.titulo}"

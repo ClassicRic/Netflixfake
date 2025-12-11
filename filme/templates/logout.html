@@ -6,22 +6,25 @@ Logout
 {% endblock %}
 
 {% block content %}
-   <header class="min-h-screen bg-black bg-opacity-75 bg-blend-overlay showcase border-gray-600 border-b-8 flex justify-center items-center bg-no-repeat"  style="background-image: url('{% static 'images/background_netflix.jpg' %}');">
-        <div class="z-10 h-full py-32 md:py-0 text-gray-100 text-center flex items-center flex-col">
-            <h2 class="text-2xl">Você saiu da sua conta</h2>
-            <div class="flex flex-nowrap justify-center space-x-5 p-5">
-            <a href="{% url 'filme:login' %}"><button class="bg-red-600  py-1 px-3 text-white md:text-lg rounded-md">Fazer Login</button></a>
-            <a href="{% url 'filme:criarconta' %}"><button class="bg-red-600 py-1 px-3 text-white md:text-lg rounded-md">Criar uma Conta</button></a>
-            </div>
+<header class="min-h-screen bg-black/70 bg-blend-overlay showcase border-b-8 border-gray-700 flex justify-center items-center bg-no-repeat bg-cover"
+        style="background-image: url('{% static 'images/background_netflix.jpg' %}');">
+
+    <div class="z-10 w-full max-w-md px-6 py-10 bg-black/80 rounded-xl text-gray-100 shadow-xl text-center">
+
+        <h2 class="text-3xl font-semibold mb-6">Você saiu da sua conta</h2>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-4 mt-4">
+            <a href="{% url 'filme:login' %}"
+               class="bg-red-600 hover:bg-red-700 py-2 px-4 text-white text-lg rounded-md transition w-full sm:w-auto">
+                Fazer Login
+            </a>
+
+            <a href="{% url 'filme:criarconta' %}"
+               class="bg-red-600 hover:bg-red-700 py-2 px-4 text-white text-lg rounded-md transition w-full sm:w-auto">
+                Criar Conta
+            </a>
         </div>
-    </header>
 
-    <footer class=" px-5 py-10 ">
-        <ul class="flex justify-between items-center">
-
-            <li>&copy; 2021</li>
-            <li> Feito com Python (Django)</li>
-            <li>Hashtag</li>
-        </ul>
-    </footer>
+    </div>
+</header>
 {% endblock %}

@@ -1,104 +1,95 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block titulo %}
-HomePage Hashflix
-{% endblock %}
-
-{% block head %}
-<style>
-    #id_email{
-    width: 100%;
-    color: #000000;
-    padding: 5px 5px;
-    }
-</style>
+Homepage - Fortflix
 {% endblock %}
 
 {% block content %}
-    <header class="min-h-screen bg-black bg-opacity-75 bg-blend-overlay showcase border-gray-600 border-b-8 flex justify-center items-center bg-no-repeat"  style="background-image: url('{% static 'images/background_netflix.jpg' %}');">
-        <div class="z-10 h-full py-32 md:py-0 text-gray-100 text-center flex items-center flex-col">
 
-            <h1 class="font-semibold text-4xl md:text-5xl w-10/12 md:w-3/4 text-center">
-                Filmes e séries da Hashtag, tudo em um só lugar.
-            </h1>
-            <h3 class="text-xl md:text-xl py-5">
-                Assista onde quiser. Cancele quando quiser.
-            </h3>
-            <h4 class="text-sm md:text-lg pb-3">
-                Quer começar? Coloque seu e-mail abaixo para acessar.
-            </h4>
+<!-- HERO / HEADER -->
+<header class="relative min-h-screen flex justify-center items-center border-b-8 border-gray-700 bg-black/60 bg-blend-overlay bg-cover bg-center"
+        style="background-image: url('{% static 'images/background_netflix.jpg' %}');">
 
-            <div class="w-full flex justify-center">
-                <div class="flex justify-center items-center w-11/12 md:w-10/12">
-                    <form method="post" class="w-6/12 justify-center">
-                        {% csrf_token %}
-                        <div class="flex flex-grow items-stretch">
-                            {{ form }}
-                        <button class="bg-red-600 font-medium md:font-normal flex justify-center items-center py-2 px-3 md:px-0 rounded-br-sm rounded-tr-sm md:text-2xl" type="submit">
-                            <span>
-                                Acessar
-                            </span>
-                            <ion-icon name="chevron-forward-outline" class="text-2xl"></ion-icon>
-                        </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    <div class="z-10 max-w-3xl px-6 text-center text-gray-100 py-16">
+        <h1 class="font-bold text-4xl md:text-6xl leading-tight">
+            Filmes e séries da Fortflix, tudo em um só lugar.
+        </h1>
 
-        </div>
-    </header>
+        <h3 class="text-lg md:text-xl mt-6">
+            Assista onde quiser. Cancele quando quiser.
+        </h3>
 
-    <section class='flex flex-col md:flex-row items-center border-gray-900 border-b-8' style="min-height: 70vh;">
-        <div class="md:w-1/2 flex flex-col justify-center text-center md:text-left p-5 md:p-10 ">
-            <h2 class="md:text-5xl text-4xl font-semibold mb-4">
-                Enjoy on your TV.
-            </h2>
-            <h5 class="md:text-xl text-lg">
-                Watch on Smart TVs, Playstation, Xbox, Chromecast, Apple TV, Blu-ray players, and more.
-            </h5>
-        </div>
-        <div class='md:w-1/2 flex justify-center items-center'>
-            <img src="{% static 'images/tv.png' %}" class="w-8/12" alt="">
-        </div>
-    </section>
+        <h4 class="text-sm md:text-lg mt-3 text-gray-300">
+            Quer começar? Coloque seu e-mail abaixo para acessar.
+        </h4>
 
-    <section class='flex flex-col md:flex-row items-center border-gray-900 border-b-8' style="min-height: 70vh;">
-        <div class='md:w-1/2 flex justify-center items-center '>
-            <img src="{% static 'images/mobile-0819.jpg' %}" class="w-8/12" alt="">
-        </div>
+        <!-- FORM DJANGO FUNCIONAL -->
+        <form method="post" class="mt-6 w-full flex flex-col md:flex-row justify-center items-center gap-3">
+            {% csrf_token %}
 
-        <div class="md:w-1/2 flex flex-col justify-center text-center md:text-left p-5 md:p-10">
-            <h2 class="md:text-5xl text-4xl font-semibold mb-4">
-                Download your shows to watch offline.
-            </h2>
-            <h5 class="md:text-xl text-lg">
-                Save your favorites easily and always have something to watch.
-            </h5>
-        </div>
+            {{ form.email }}
 
-    </section>
+            <button type="submit"
+                    class="flex items-center gap-2 bg-red-600 hover:bg-red-700 transition px-6 py-3 text-lg font-medium rounded-md">
+                Acessar
+                <ion-icon name="chevron-forward-outline" class="text-2xl"></ion-icon>
+            </button>
+        </form>
+    </div>
 
-    <section class='flex flex-col md:flex-row items-center border-gray-900 border-b-8' style="min-height: 70vh;">
-        <div class="md:w-1/2 flex flex-col justify-center text-center md:text-left p-5 md:p-10">
-            <h2 class="md:text-5xl text-4xl font-semibold mb-4">
-                Create profiles for kids.
-            </h2>
-            <h5 class="md:text-xl text-lg">
-                Send kids on adventures with their favorite characters in a space made just for them—free with your membership.
-            </h5>
-        </div>
-        <div class='md:w-1/2 flex justify-center items-center'>
-            <img src="{% static 'images/netflix_kid.png' %}" class="w-8/12" alt="">
-        </div>
-    </section>
-    <footer class=" px-5 py-10 ">
-        <ul class="flex justify-between items-center">
+    <div class="absolute inset-0 bg-black/40"></div>
+</header>
 
-            <li>&copy; 2021</li>
-            <li> Feito com Python (Django)</li>
-            <li>Hashtag</li>
-        </ul>
-    </footer>
+<!-- SECTION 1 -->
+<section class="flex flex-col md:flex-row items-center border-b-8 border-gray-700 min-h-[70vh] px-6 py-12">
+    <div class="md:w-1/2 text-center md:text-left space-y-4">
+        <h2 class="text-4xl md:text-5xl font-bold">Aproveite na sua TV.</h2>
+        <p class="text-lg md:text-xl text-gray-300">
+            Assista em Smart TVs, Playstation, Xbox, Chromecast, Apple TV e muito mais.
+        </p>
+    </div>
+
+    <div class="md:w-1/2 flex justify-center mt-8 md:mt-0">
+        <img src="{% static 'images/tv.png' %}" class="w-9/12 max-w-md" alt="TV">
+    </div>
+</section>
+
+<!-- SECTION 2 -->
+<section class="flex flex-col md:flex-row-reverse items-center border-b-8 border-gray-700 min-h-[70vh] px-6 py-12">
+    <div class="md:w-1/2 text-center md:text-left space-y-4">
+        <h2 class="text-4xl md:text-5xl font-bold">Baixe para assistir offline.</h2>
+        <p class="text-lg md:text-xl text-gray-300">
+            Salve seus títulos favoritos e assista quando quiser.
+        </p>
+    </div>
+
+    <div class="md:w-1/2 flex justify-center mt-8 md:mt-0">
+        <img src="{% static 'images/mobile-0819.jpg' %}" class="w-9/12 max-w-md rounded-lg" alt="Download offline">
+    </div>
+</section>
+
+<!-- SECTION 3 -->
+<section class="flex flex-col md:flex-row items-center border-b-8 border-gray-700 min-h-[70vh] px-6 py-12">
+    <div class="md:w-1/2 text-center md:text-left space-y-4">
+        <h2 class="text-4xl md:text-5xl font-bold">Perfis para crianças.</h2>
+        <p class="text-lg md:text-xl text-gray-300">
+            Deixe as crianças explorarem um mundo seguro com seus personagens favoritos.
+        </p>
+    </div>
+
+    <div class="md:w-1/2 flex justify-center mt-8 md:mt-0">
+        <img src="{% static 'images/netflix_kid.png' %}" class="w-9/12 max-w-md" alt="Kids profile">
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="px-5 py-10 text-gray-400 text-sm">
+    <ul class="flex flex-col md:flex-row justify-between items-center gap-3">
+        <li>&copy; 2021 - Fortflix</li>
+        <li>Feito com Python (Django)</li>
+        <li>Hashtag</li>
+    </ul>
+</footer>
 
 {% endblock %}
