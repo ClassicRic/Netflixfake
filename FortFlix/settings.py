@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-q8+t*u=3*kv5%ov(6j91xq+0i05ud*!1f*dj&7o#$om*kykj-t'
 
-DEBUG = True   # PARA DEPLOY VAMOS TROCAR PARA False
+DEBUG = False   # PARA DEPLOY VAMOS TROCAR PARA False
 
 ALLOWED_HOSTS = ["*"]  # Railway exige isso
 
