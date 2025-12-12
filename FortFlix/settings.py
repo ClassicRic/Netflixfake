@@ -130,8 +130,8 @@ USE_TZ = True
 # ARQUIVOS ESTÁTICOS (CSS, JS)
 # ============================================
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / "static",]
 
 # >>> Requerido pelo Railway
 STATIC_ROOT = BASE_DIR / "staticfiles"
