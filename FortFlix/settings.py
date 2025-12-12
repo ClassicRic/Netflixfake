@@ -86,12 +86,12 @@ WSGI_APPLICATION = 'FortFlix.wsgi.application'
 # ============================================
 
 # Usa PostgreSQL no Railway, SQLite localmente
-DATABASE_MY = os.getenv("DATABASE_MY")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-if DATABASE_MY:
+if DATABASE_URL:
     DATABASES = {
         "default": dj_database_url.config(
-            default=DATABASE_MY,
+            default=DATABASE_URL,
             conn_max_age=1800,
         )
     }
@@ -161,3 +161,5 @@ AUTH_USER_MODEL = "filme.User"
 
 LOGIN_URL = "filme:login"
 LOGIN_REDIRECT_URL = "filme:homefilmes"
+
+#update
