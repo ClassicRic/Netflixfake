@@ -8,18 +8,23 @@ class FilmeConfig(AppConfig):
     name = 'filme'
 
     def ready(self):
+        from .models import User
+
         email = os.getenv("EMAIL_ADMIN")
-        senha = os.getenv("SENHA_ADMIN")
-        usuarios = User.objects.filter(email=email)
+        password = os.getenv("SENHA_ADMIN")
 
-        if not usuarios:
-            User.objects.create_superuser(
-                username="admin",
-                email=email,
-                password=senha,
-                is_active=True,
-                is_staff=True,
+        if not email or not password:
+            return
 
-            )
+        # ✅ checar username (campo único)
+        if User.objects.filter(username=email).exists():
+            return
 
-
+        User.objects.create_superuser(
+            username=email,
+            email=email,
+            password=password,
+            is_active=True,
+            is_staff=True,
+            is_superuser=True,
+        )
