@@ -6,11 +6,17 @@ from django.conf.global_settings import MEDIA_URL, MEDIA_ROOT
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-q8+t*u=3*kv5%ov(6j91xq+0i05ud*!1f*dj&7o#$om*kykj-t'
+TOKEN_CSRF = os.getenv('TOKEN_CSRF')
+
+if TOKEN_CSRF:
+    SECRET_KEY = TOKEN_CSRF
+    CSRF_TRUSTED_ORIGINS = ['https://netflixfake-production.up.railway.app/']
+else:
+    SECRET_KEY = 'django-insecure-q8+t*u=3*kv5%ov(6j91xq+0i05ud*!1f*dj&7o#$om*kykj-t'
 
 DEBUG = False   # PARA DEPLOY VAMOS TROCAR PARA False
 
-ALLOWED_HOSTS = ["*"]  # Railway exige isso
+ALLOWED_HOSTS = ["https://netflixfake-production.up.railway.app/", "localhost", "127.0.0.1"]  # Railway exige isso
 
 
 # ============================================
@@ -95,6 +101,15 @@ DATABASES = {
             conn_max_age=1800,
         )
 }
+
+
+
+# DATABASES = {
+#         "default": {
+# 	'ENGINE': 'django.db.backends.sqlite3',
+# 	'NAME': BASE_DIR / 'db.sqlite3',
+# }
+# }
 
 
 
